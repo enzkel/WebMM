@@ -1430,7 +1430,7 @@
       }
       const { data: publicURLData } = supabase.storage.from(BUCKET).getPublicUrl(filename);
       const publicUrl = publicURLData.publicUrl;
-      const { error: dbError } = await supabase.from('photos').insert([{ filename, url: publicUrl, approved: false }]);
+      const { error: dbError } = await supabase.from('Photos').insert([{ filename, url: publicUrl, approved: false }]);
       if (dbError) {
         alert('Database insert failed: ' + dbError.message);
         uploadSuccess = false;
