@@ -830,7 +830,7 @@
    </section>
 
    <section id="photos">
-    <h2>Upload Your Moments</h2>
+    <h2>Upload Our Moments</h2>
     <div class="divider"></div>
     <div class="upload-container">
         <input type="file" id="photo-upload" accept="image/*" multiple style="display: none;"/>
@@ -1460,7 +1460,7 @@
   });
 
   async function loadApprovedPhotos() {
-    const { data: approvedPhotos, error } = await supabase.from('photos').select('*').eq('approved', true);
+    const { data: approvedPhotos, error } = await supabase.from('Photos').select('*').eq('approved', true);
     if (error) {
         console.error("Error loading approved photos:", error);
         return;
