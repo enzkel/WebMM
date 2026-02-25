@@ -607,23 +607,6 @@
         }
         
         
-        .secret-container {
-            text-align: center;
-            margin-top: 50px;
-        }
-        
-        .secret-input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
-            font-family: inherit;
-        }
-        
-        .secret-video {
-            margin-top: 30px;
-            display: none;
-        }
         
         
         footer {
@@ -774,9 +757,6 @@
     </a>
     <a class="nav-link" href="#wishlist">
      Wishlist
-    </a>
-    <a class="nav-link" href="#secret">
-     Secret
     </a>
    </div>
   </nav>
@@ -929,21 +909,7 @@
      </div>
     </div>
    </section>
-   <section id="secret">
-    <h2>
-     Secret
-    </h2>
-    <div class="divider">
-    </div>
-    <div class="secret-container">
-     <p>
-      Enter special code to unlock 🫰🏻
-     </p>
-     <input class="secret-input" id="secret-code" placeholder="Enter secret code" type="text"/>
-     <button id="unlock-btn">
-      Unlock
-     </button>
-     <div class="secret-video" id="secret-video">
+   
       <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="315" src="" width="560">
       </iframe>
      </div>
@@ -1127,8 +1093,6 @@
         const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
         
         
-        const secretVideoUrl = "https://drive.google.com/file/d/1BpxS3DEIMwfJF9-Bc2Ebq9hcdfmZXI4I/preview"; 
-        const secretCode = "iloveyoumuttscret"; 
         
         
         const songList = document.getElementById('song-list');
@@ -1140,9 +1104,7 @@
         const wishlistInput = document.getElementById('wishlist-input');
         const addWishBtn = document.getElementById('add-wish');
         const wishlistItems = document.getElementById('wishlist-items');
-        const secretCodeInput = document.getElementById('secret-code');
         const unlockBtn = document.getElementById('unlock-btn');
-        const secretVideo = document.getElementById('secret-video');
         const musicToggle = document.getElementById('music-toggle');
         const bgMusic = document.getElementById('bg-music');
 
@@ -1370,17 +1332,6 @@
         });
 }
         
-        function checkSecretCode() {
-            const code = secretCodeInput.value.trim().toLowerCase();
-            
-            if (code === secretCode.toLowerCase()) {
-                secretVideo.style.display = 'block';
-                secretVideo.querySelector('iframe').src = secretVideoUrl;
-                secretCodeInput.value = '';
-            } else {
-                alert('Incorrect code! Try again or ask your partner for the secret code.');
-            }
-        }
         
         function toggleMusic() {
             if (bgMusic.paused) {
