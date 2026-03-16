@@ -1612,5 +1612,77 @@ document.addEventListener('DOMContentLoaded', () => {
   <img class="modal-content" id="modalImg">
 </div>
 
+<script type="module">
+const MOBILE_WIDTH = 768;
+
+function isMobile() {
+    return window.innerWidth <= MOBILE_WIDTH;
+}
+
+// Optimasi performa di HP
+function enableMobileOptimizations() {
+    document.body.classList.add('mobile-light-mode');
+
+    // matikan partikel & hearts
+    const hearts = document.querySelectorAll('.floating-heart, .heart');
+    hearts.forEach(h => h.style.display = 'none');
+
+    // matikan animasi header
+    const header = document.querySelector('header');
+    if(header) header.style.animation = 'none';
+
+    // kurangi shadow & filter di cards
+    const cards = document.querySelectorAll('.song-card, .profile-img, .wishlist-item, .upload-container, .verse-container, .gallery-item');
+    cards.forEach(c => {
+        c.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+        c.style.filter = 'none';
+        c.style.transition = 'none';
+    });
+
+    // lazy-load gambar gallery & upload preview
+    const images = document.querySelectorAll('.gallery-item img, .upload-preview img, #pet-image, .profile-img');
+    images.forEach(img => {
+        if(!img.dataset.src) {
+            img.dataset.src = img.src;
+            img.src = '';
+        }
+    });
+
+    // lazy-load iframe YouTube
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(f => {
+        f.dataset.src = f.src;
+        f.src = '';
+    });
+
+    // lazy load observer
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                lazyLoadMedia(entry.target);
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: "200px" });
+
+    images.forEach(img => observer.observe(img));
+    iframes.forEach(f => observer.observe(f));
+}
+
+// Load src dari data-src
+function lazyLoadMedia(el) {
+    if(el.tagName === 'IMG' && el.dataset.src) el.src = el.dataset.src;
+    if(el.tagName === 'IFRAME' && el.dataset.src) el.src = el.dataset.src;
+}
+
+// Jalankan saat load & resize
+window.addEventListener('load', () => {
+    if(isMobile()) enableMobileOptimizations();
+});
+
+window.addEventListener('resize', () => {
+    if(!isMobile()) document.body.classList.remove('mobile-light-mode');
+});
+</script>
 </body>
 </html>
