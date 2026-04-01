@@ -386,6 +386,550 @@ body.dark .anniv-time{
 color:#ffffff;
 text-shadow: 0 0 10px rgba(255,105,180,0.5); 
 }
+
+.re-claire-img img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ff0000; /* sesuai style border Claire */
+  box-shadow: 0 0 20px rgba(255,0,0,0.5);
+}
+
+/* ===== RE Gallery Button ===== */
+.re-gallery-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 0, 0, 0.15);
+    border: 2px solid rgba(255, 0, 0, 0.6);
+    border-radius: 8px;
+    color: #ff0000;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 999999;
+    display: none; /* hidden by default */
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    animation: reFlicker 3s infinite;
+    box-shadow: 0 0 15px rgba(255,0,0,0.3);
+}
+
+.re-gallery-btn:hover {
+    background: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 25px rgba(255,0,0,0.6);
+    transform: scale(1.1);
+}
+
+/* Tampil saat overlay RE aktif */
+.re-overlay.active ~ .re-gallery-btn,
+.re-overlay.active + .re-gallery-btn {
+    display: flex;
+}
+
+/* ===== RE Gallery Modal ===== */
+.re-gallery-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.re-gallery-modal.active {
+    display: flex;
+}
+
+.re-gallery-modal-inner {
+    background: #0a0000;
+    border: 1px solid rgba(255,0,0,0.5);
+    border-radius: 10px;
+    padding: 25px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    scrollbar-width: none;
+}
+
+.re-gallery-modal-inner::-webkit-scrollbar {
+    display: none;
+}
+
+.re-gallery-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,0,0,0.3);
+    padding-bottom: 10px;
+}
+
+.re-gallery-close {
+    background: transparent;
+    border: 1px solid rgba(255,0,0,0.5);
+    color: #ff0000;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.re-gallery-close:hover {
+    background: #ff0000;
+    color: #000;
+}
+
+.re-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.re-gallery-item {
+    position: relative;
+    border: 1px solid rgba(255,0,0,0.3);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.re-gallery-item:hover {
+    border-color: #ff0000;
+    box-shadow: 0 0 15px rgba(255,0,0,0.4);
+    transform: scale(1.02);
+}
+
+.re-gallery-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    filter: contrast(1.1) saturate(0.85);
+    transition: all 0.3s ease;
+}
+
+.re-gallery-item:hover img {
+    filter: contrast(1.2) saturate(1);
+}
+
+.re-gallery-caption {
+    display: block;
+    background: rgba(0,0,0,0.8);
+    color: #ff4444;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    padding: 6px 10px;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    border-top: 1px solid rgba(255,0,0,0.2);
+}
+
+body.overlay-open {
+  overflow: hidden;
+}
+
+/* Untuk Webkit browsers (Chrome, Safari) */
+.re-overlay::-webkit-scrollbar,
+.re-screen::-webkit-scrollbar {
+    width: 0;  /* hilangkan scrollbar vertikal */
+    background: transparent;
+}
+
+/* Untuk Firefox */
+.re-overlay,
+.re-screen {
+  scrollbar-width: none;  /* hilangkan scrollbar Firefox */
+}
+
+/* Agar scroll tetap aktif */
+.re-overlay,
+.re-screen {
+  -ms-overflow-style: none;  /* untuk Internet Explorer dan Edge */
+}
+
+/* RE Easter Egg Styles */
+.re-overlay {
+    position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 99999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;       /* scroll vertikal */
+  -webkit-overflow-scrolling: touch; /* smooth scroll di iOS */
+  padding: 20px 0;
+}
+
+.re-overlay.active {
+    display: flex;
+}
+
+@keyframes reGlitchIn {
+    0% { opacity: 0; filter: brightness(3) contrast(2); }
+    20% { opacity: 1; filter: brightness(0.5); }
+    40% { opacity: 0.8; filter: brightness(2); }
+    60% { opacity: 1; filter: brightness(0.8); }
+    100% { opacity: 1; filter: brightness(1); }
+}
+
+.re-screen {
+    max-height: 90vh;      /* maksimal tinggi 90% dari viewport */
+  overflow-y: auto;       /* scroll di dalamnya */
+  width: 100%;
+  max-width: 700px;
+  padding: 40px 30px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* Scanline effect */
+.re-screen::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.08) 0px,
+        rgba(0,0,0,0.08) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.re-biohazard {
+    font-size: 80px;
+    animation: reSpin 6s linear infinite, rePulse 2s ease-in-out infinite;
+    display: block;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px #ff0000);
+}
+
+@keyframes reSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes rePulse {
+    0%, 100% { filter: drop-shadow(0 0 10px #ff0000); }
+    50% { filter: drop-shadow(0 0 40px #ff4444) brightness(1.3); }
+}
+
+.re-title {
+    color: #ff0000;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    text-shadow: 
+        0 0 10px #ff0000,
+        0 0 30px #ff0000,
+        2px 2px 0 #800000;
+    margin-bottom: 5px;
+    animation: reFlicker 3s infinite;
+}
+
+@keyframes reFlicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.4; }
+    97% { opacity: 1; }
+    98% { opacity: 0.2; }
+    99% { opacity: 1; }
+}
+
+.re-subtitle {
+    color: #888;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.re-divider {
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #ff0000, transparent);
+    margin: 20px auto;
+    box-shadow: 0 0 8px #ff0000;
+}
+
+.re-claire-section {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    background: rgba(255, 0, 0, 0.05);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 25px 0;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.re-claire-section::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,0,0,0.05) 0%, transparent 60%);
+    animation: reSweep 4s linear infinite;
+}
+
+@keyframes reSweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.re-claire-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #ff0000;
+    object-fit: cover;
+    box-shadow: 0 0 20px rgba(255,0,0,0.5);
+    flex-shrink: 0;
+    background: #1a0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+}
+
+.re-claire-info h3 {
+    color: #ff4444;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    text-shadow: 0 0 8px #ff0000;
+}
+
+.re-claire-info .re-tag {
+    display: inline-block;
+    background: rgba(255,0,0,0.15);
+    border: 1px solid rgba(255,0,0,0.4);
+    color: #ff6666;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin: 2px;
+    letter-spacing: 1px;
+}
+
+.re-claire-info p {
+    color: #aaa;
+    font-size: 0.8rem;
+    margin-top: 8px;
+    line-height: 1.6;
+}
+
+.re-message-box {
+    background: rgba(0, 20, 0, 0.6);
+    border: 1px solid #00ff41;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0;
+    position: relative;
+}
+
+.re-message-box::before {
+    content: '> INCOMING MESSAGE_';
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #000;
+    color: #00ff41;
+    font-size: 0.65rem;
+    padding: 0 8px;
+    letter-spacing: 2px;
+}
+
+.re-message-text {
+    color: #00ff41;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    text-align: left;
+    white-space: pre-line;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.re-typewriter {
+    overflow: hidden;
+    border-right: 2px solid #00ff41;
+    white-space: nowrap;
+    animation: reTyping 4s steps(60) forwards, reBlink 0.8s step-end infinite;
+    width: 0;
+}
+
+@keyframes reTyping {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes reBlink {
+    50% { border-color: transparent; }
+}
+
+.re-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.re-stat-item {
+    background: rgba(255,0,0,0.08);
+    border: 1px solid rgba(255,0,0,0.25);
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+.re-stat-label {
+    color: #666;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.re-stat-value {
+    color: #ff4444;
+    font-size: 1rem;
+    font-weight: bold;
+    text-shadow: 0 0 8px #ff0000;
+}
+
+.re-quote {
+    color: #ff6666;
+    font-style: italic;
+    font-size: 0.85rem;
+    margin: 15px 0;
+    padding: 10px;
+    border-left: 3px solid #ff0000;
+    text-align: left;
+    text-shadow: 0 0 5px rgba(255,0,0,0.3);
+}
+
+.re-close-btn {
+    background: transparent;
+    border: 2px solid #ff0000;
+    color: #ff0000;
+    padding: 12px 35px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.re-close-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: #ff0000;
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.re-close-btn:hover {
+    color: #000;
+    box-shadow: 0 0 20px rgba(255,0,0,0.5);
+}
+
+.re-close-btn:hover::before {
+    left: 0;
+}
+
+/* Glitch text effect */
+.re-glitch {
+    position: relative;
+}
+
+.re-glitch::before,
+.re-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+}
+
+.re-glitch::before {
+    color: #0ff;
+    animation: reGlitchTop 2s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.re-glitch::after {
+    color: #f0f;
+    animation: reGlitchBot 2s infinite;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+@keyframes reGlitchTop {
+    0%, 90%, 100% { transform: translate(0); }
+    92% { transform: translate(-3px, -1px); }
+    94% { transform: translate(3px, 1px); }
+    96% { transform: translate(-2px, 0); }
+}
+
+@keyframes reGlitchBot {
+    0%, 90%, 100% { transform: translate(0); }
+    92% { transform: translate(3px, 1px); }
+    94% { transform: translate(-3px, -1px); }
+    96% { transform: translate(2px, 0); }
+}
+
+/* Red particles */
+.re-particle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: #ff0000;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: reParticleFloat linear forwards;
+    box-shadow: 0 0 6px #ff0000;
+}
+
+@keyframes reParticleFloat {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-20px) scale(1.5); opacity: 0; }
+}
         
         .gallery-item {
             border-radius: 12px;
@@ -1184,6 +1728,7 @@ body.night-mode header {
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
+
             
   const SUPABASE_URL = 'https://yktwjvzmqhthtyczqvhc.supabase.co'; 
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrdHdqdnptcWh0aHR5Y3pxdmhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMDM4MDQsImV4cCI6MjA2Nzg3OTgwNH0.FDGRmaYBMRcNUlsZhpbVHrLzK6ZYnGP9Lbh-uMsFVgA'; 
@@ -1290,6 +1835,7 @@ modal.onclick = ()=>{
         
         const secretVideoUrl = "https://drive.google.com/file/d/1EugQQ_XVtb48xVOZSWJQUX-kcdrtO4e7/preview"; 
         const secretCode = "imut"; 
+        const reCode = "claire";
         
         
         const songList = document.getElementById('song-list');
@@ -1568,17 +2114,159 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 }
         
+    
+
+
+
         function checkSecretCode() {
             const code = secretCodeInput.value.trim().toLowerCase();
-            
-            if (code === secretCode.toLowerCase()) {
+
+            if (code === reCode) {
+                triggerREEasterEgg();
+                secretCodeInput.value = '';
+
+            } else if (code === secretCode.toLowerCase()) {
                 secretVideo.style.display = 'block';
                 secretVideo.querySelector('iframe').src = secretVideoUrl;
                 secretCodeInput.value = '';
+
             } else {
                 alert('Incorrect code! Try again or ask your partner for the secret code.');
             }
         }
+
+        function triggerREEasterEgg() {
+    const overlay = document.getElementById('re-overlay');
+    overlay.classList.add('active');
+    document.body.classList.add('overlay-open');
+
+    // Tampilkan tombol galeri
+    const galleryBtn = document.getElementById('re-gallery-btn');
+    if (galleryBtn) galleryBtn.style.display = 'flex';
+
+    spawnREParticles();
+
+    const message = `WELCOMEEEEEEEEEE\n\nIni spesial buat ceyy yang suka banget sama Claire Redfield ❤️\n\nSama kayak Claire yang gak pernah nyerah di Raccoon City,\nkita juga gak akan nyerah satu sama lain mwehehee\n\nStay strong. Stay together. 🧟‍♀️❤️`;
+    typewriterEffect('re-message', message, 40);
+
+    playRESound();
+    playREAmbient();
+
+    // Bersihkan event listener lama
+    const oldBtn = document.getElementById('re-close-btn');
+    oldBtn.replaceWith(oldBtn.cloneNode(true));
+
+    // Pasang event listener baru
+    const newCloseBtn = document.getElementById('re-close-btn');
+    newCloseBtn.addEventListener('click', () => {
+        overlay.classList.remove('active');
+        document.body.classList.remove('overlay-open');
+        stopREAmbient();
+
+        // Sembunyikan tombol galeri & tutup modal galeri
+        if (galleryBtn) galleryBtn.style.display = 'none';
+        const modal = document.getElementById('re-gallery-modal');
+        if (modal) modal.classList.remove('active');
+    });
+}
+
+
+        let typingInterval; // global variable untuk menyimpan interval
+
+function typewriterEffect(elementId, text, speed) {
+    const el = document.getElementById(elementId);
+    el.textContent = ''; // reset teks
+    if (typingInterval) clearInterval(typingInterval); // hentikan interval lama jika ada
+
+    let i = 0;
+
+    typingInterval = setInterval(() => {
+        if (i < text.length) {
+            el.textContent += text.charAt(i);
+            i++;
+        } else {
+            clearInterval(typingInterval);
+            typingInterval = null;
+        }
+    }, speed);
+}
+
+        function spawnREParticles() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 're-particle';
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    particle.style.animationDelay = (Math.random() * 2) + 's';
+                    particle.style.width = (Math.random() * 6 + 2) + 'px';
+                    particle.style.height = particle.style.width;
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 6000);
+                }, i * 100);
+            }
+        }
+        
+
+        function playRESound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(80, ctx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 1.5);
+                gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + 1.5);
+            } catch(e) {
+                console.log('Audio not supported');
+            }
+        }
+        
+        function playREAmbient() {
+    const ambient = document.getElementById('re-ambient-audio');
+    if (ambient) {
+        ambient.volume = 0.4;
+        ambient.currentTime = 0;
+        ambient.play().catch(e => console.log('Ambient blocked:', e));
+    }
+}
+
+function stopREAmbient() {
+    const ambient = document.getElementById('re-ambient-audio');
+    if (ambient) {
+        ambient.pause();
+        ambient.currentTime = 0;
+    }
+}
+// RE Gallery Button Logic
+const reGalleryBtn = document.getElementById('re-gallery-btn');
+const reGalleryModal = document.getElementById('re-gallery-modal');
+const reGalleryClose = document.getElementById('re-gallery-close');
+
+if (reGalleryBtn) {
+    reGalleryBtn.addEventListener('click', () => {
+        reGalleryModal.classList.add('active');
+    });
+}
+
+if (reGalleryClose) {
+    reGalleryClose.addEventListener('click', () => {
+        reGalleryModal.classList.remove('active');
+    });
+}
+
+if (reGalleryModal) {
+    reGalleryModal.addEventListener('click', (e) => {
+        if (e.target === reGalleryModal) {
+            reGalleryModal.classList.remove('active');
+        }
+    });
+}
         
         function toggleMusic() {
             if (bgMusic.paused) {
@@ -1672,7 +2360,10 @@ document.addEventListener('DOMContentLoaded', () => {
         init();
         </script>
 
-
+<!-- RE Ambient Sound -->
+<audio id="re-ambient-audio" loop preload="auto" style="display:none;">
+    <source src="ambient.mp3" type="audio/mpeg" />
+</audio>
 
 
 
@@ -1787,6 +2478,123 @@ formatTanggal(startDate);
 setInterval(updateTime,1000);
 updateTime();
 
+</script>
+<!-- RE Easter Egg Overlay -->
+<div class="re-overlay" id="re-overlay">
+    <div class="re-screen">
+
+        <!-- Biohazard Icon -->
+        <span class="re-biohazard">☣️</span>
+
+        <!-- Title dengan Glitch -->
+        <h1 class="re-title re-glitch" data-text="RESIDENT EVIL">RESIDENT EVIL</h1>
+        <p class="re-subtitle">Raccoon City Archives — Classified</p>
+
+        <div class="re-divider"></div>
+
+        <!-- Claire Card -->
+        <div class="re-claire-section">
+            <div class="re-claire-img">
+                <img src="CeyyCakep.jpg" alt="My Girl" />
+            </div>
+            <div class="re-claire-info">
+                <h3>Ceyy Redfield</h3>
+                <span class="re-tag">S.T.A.R.S Alumni</span>
+                <span class="re-tag">Survivor</span>
+                <span class="re-tag">Badass</span>
+                <p>College student. Motorcyclist. Zombie slayer.<br>
+                Sister of Chris Redfield.<br>
+                Raccoon City Survivor — 1998.</p>
+            </div>
+        </div>
+
+        <!-- RE Quote -->
+        <div class="re-quote">
+            "I'm not going to just sit here and wait to die."
+            <br><small style="color:#666;">— Ceyy Redfield, RE2</small>
+        </div>
+
+        <!-- Stats -->
+        <div class="re-stats">
+            <div class="re-stat-item">
+                <span class="re-stat-label">Strength</span>
+                <span class="re-stat-value">★★★★☆</span>
+            </div>
+            <div class="re-stat-item">
+                <span class="re-stat-label">Survival</span>
+                <span class="re-stat-value">★★★★★</span>
+            </div>
+            <div class="re-stat-item">
+                <span class="re-stat-label">Heart</span>
+                <span class="re-stat-value">★★★★★</span>
+            </div>
+        </div>
+
+        <div class="re-divider"></div>
+
+        <!-- Message Box -->
+        <div class="re-message-box">
+            <p class="re-message-text" id="re-message"></p>
+        </div>
+
+        <!-- Close Button -->
+        <button class="re-close-btn" id="re-close-btn">
+            [ EXIT RACCOON CITY ]
+        </button>
+
+    </div>
+    
+</div>
+<!-- Tombol buka galeri Claire - pojok kanan bawah -->
+<button class="re-gallery-btn" id="re-gallery-btn" title="Open Claire's Files">
+    📁
+</button>
+
+<!-- Modal Galeri Claire -->
+<div class="re-gallery-modal" id="re-gallery-modal">
+    <div class="re-gallery-modal-inner">
+        <div class="re-gallery-modal-header">
+            <span class="re-card-label">// CLAIRE REDFIELD — PHOTO FILES //</span>
+            <button class="re-gallery-close" id="re-gallery-close">✕</button>
+        </div>
+
+        <div class="re-gallery-grid">
+            <div class="re-gallery-item">
+                <img src="RE2.jpg" 
+                     alt="Claire RE2" 
+                     onerror="this.parentElement.style.display='none'" />
+                <span class="re-gallery-caption">RE2 Remake — 1998</span>
+            </div>
+            <div class="re-gallery-item">
+                <img src="CV.jpg" 
+                     alt="Claire Code Veronica"
+                     onerror="this.parentElement.style.display='none'" />
+                <span class="re-gallery-caption">Code Veronica — 2000</span>
+            </div>
+            <div class="re-gallery-item">
+                <img src="RV2.jpg" 
+                     alt="Claire Revelations 2"
+                     onerror="this.parentElement.style.display='none'" />
+                <span class="re-gallery-caption">Revelations 2 — 2015</span>
+            </div>
+            <div class="re-gallery-item">
+                <img src="CID.jpg" 
+                     alt="Claire Infinite Darkness"
+                     onerror="this.parentElement.style.display='none'" />
+                <span class="re-gallery-caption">Infinite Darkness — 2021</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const closeBtn = document.getElementById('re-close-btn');
+    const overlay = document.getElementById('re-overlay');
+    closeBtn.addEventListener('click', function() {
+        overlay.classList.remove('active');
+        document.body.classList.remove('overlay-open');
+    });
+});
 </script>
 </body>
 </html>
