@@ -1488,15 +1488,7 @@ opacity:1;
     <div class="divider">
     </div>
     <div class="gallery">
-     <div class="gallery-item">
-      <img src="fotbar1.jpg"/>
-     </div>
-     <div class="gallery-item">
-      <img src="fotbar2.jpg"/>
-     </div>
-     <div class="gallery-item">
-      <img src="fotbar3.jpg"/>
-     </div>
+     
     </div>
    </section>
 
@@ -1810,21 +1802,26 @@ modal.onclick = ()=>{
   });
 
   async function loadApprovedPhotos() {
-    const { data: approvedPhotos, error } = await supabase.from('Photos').select('*').eq('approved', true);
-    if (error) {
-        console.error("Error loading approved photos:", error);
-        return;
-    }
-    if (approvedPhotos && gallery) {
-      
-      approvedPhotos.forEach(photo => {
-        const div = document.createElement('div');
-        div.className = 'gallery-item';
-        div.innerHTML = `<img src="${photo.url}" alt="Approved photo" />`;
-        gallery.appendChild(div);
-      });
-    }
+  const { data: approvedPhotos, error } = await supabase
+    .from('Photos')
+    .select('*')
+    .eq('approved', true)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error("Error loading approved photos:", error);
+    return;
   }
+
+  gallery.innerHTML = '';
+
+  approvedPhotos.forEach(photo => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
+    div.innerHTML = `<img src="${photo.url}" alt="Approved photo" />`;
+    gallery.appendChild(div);
+  });
+}
 
   document.addEventListener('DOMContentLoaded', loadApprovedPhotos);
 
