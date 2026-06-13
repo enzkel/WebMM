@@ -1189,9 +1189,67 @@ body.overlay-open {
         .wishlist-container {
             margin-top: 30px;
         }
-        
+
+        /* ===== WISHLIST LOCK SYSTEM ===== */
+        .wishlist-lock-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .wishlist-lock-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 94, 138, 0.3);
+        }
+
+        .wishlist-lock-btn:hover {
+            background: #ff4279;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 66, 121, 0.4);
+        }
+
+        .wishlist-who-badge {
+            display: none;
+            background: linear-gradient(135deg, #fff0f5, #ffe4ef);
+            border: 1.5px solid var(--secondary);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            animation: badgePop 0.3s ease;
+        }
+
+        @keyframes badgePop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         .wishlist-form {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            display: none; /* hidden by default */
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .wishlist-form.unlocked {
+            display: flex;
+        }
+
+        .wishlist-form-row {
             display: flex;
             gap: 10px;
         }
@@ -1211,6 +1269,13 @@ body.overlay-open {
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-form button:hover {
+            background: #ff4279;
+            transform: translateY(-2px);
         }
         
         .wishlist-items {
@@ -1226,6 +1291,15 @@ body.overlay-open {
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: relative;
         }
+
+        .wishlist-item .wish-by {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--primary);
+            margin-top: 6px;
+            font-weight: 600;
+            opacity: 0.8;
+        }
         
         .wishlist-item button {
             position: absolute;
@@ -1235,6 +1309,127 @@ body.overlay-open {
             border: none;
             color: #999;
             cursor: pointer;
+        }
+
+        /* Wish Code Modal */
+        .wish-code-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .wish-code-modal.active {
+            display: flex;
+        }
+
+        .wish-code-box {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 30px;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255,94,138,0.25);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            0% { transform: translateY(-20px) scale(0.95); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .wish-code-box h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        .wish-code-box p {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .wish-code-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 3px;
+            outline: none;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .wish-code-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255,94,138,0.15);
+        }
+
+        .wish-code-input.shake {
+            animation: inputShake 0.4s ease;
+            border-color: #ff4444;
+        }
+
+        @keyframes inputShake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+
+        .wish-code-error {
+            color: #ff4444;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .wish-code-btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .wish-code-confirm {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .wish-code-confirm:hover {
+            background: #ff4279;
+            transform: translateY(-2px);
+        }
+
+        .wish-code-cancel {
+            background: #f5f5f5;
+            color: #888;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .wish-code-cancel:hover {
+            background: #eee;
         }
         
         
@@ -1420,76 +1615,44 @@ opacity:1;
 </div>
   <nav class="navbar">
    <div class="container">
-    <a class="nav-link" href="#profiles">
-     Profiles
-    </a>
-    
-    <a class="nav-link" href="#gallery">
-     Gallery
-    </a>
-    <a class="nav-link" href="#photos">
-     Upload
-    </a>
-    <a class="nav-link" href="#music">
-     Music
-    </a>
-    <a class="nav-link" href="#verse">
-     Verse
-    </a>
-    <a class="nav-link" href="#wishlist">
-     Wishlist
-    </a>
-    <a class="nav-link" href="#secret">
-     Secret
-    </a>
+    <a class="nav-link" href="#profiles">Profiles</a>
+    <a class="nav-link" href="#gallery">Gallery</a>
+    <a class="nav-link" href="#photos">Upload</a>
+    <a class="nav-link" href="#music">Music</a>
+    <a class="nav-link" href="#verse">Verse</a>
+    <a class="nav-link" href="#wishlist">Wishlist</a>
+    <a class="nav-link" href="#comments">Messages</a>
+    <a class="nav-link" href="#secret">Secret</a>
    </div>
   </nav>
   <header>
-
-
   <div class="container">
-    <h1>
-     M&M Special Web
-    </h1>
-    <p>
-     Part of our special thing
-    </p>
-   </header>
-
+    <h1>M&M Special Web</h1>
+    <p>Part of our special thing</p>
+   </div>
+  </header>
 
    <div class="container">
 
-
    <section id="profiles">
-    <h2>
-     Who's M&amp;M?
-    </h2>
-    <div class="divider">
-    </div>
+    <h2>Who's M&amp;M?</h2>
+    <div class="divider"></div>
     <div class="profile-container">
      <div class="profile">
       <img class="profile-img" src="pp1.jpg"/>
-      <h3>
-       Miracle
-      </h3>
+      <h3>Miracle</h3>
      </div>
      <div class="profile">
       <img class="profile-img" src="pp2.jpg"/>
-      <h3>
-       Michaella
-      </h3>
+      <h3>Michaella</h3>
      </div>
     </div>
    </section>
+
    <section id="gallery">
-    <h2>
-     Our Moments Together
-    </h2>
-    <div class="divider">
-    </div>
-    <div class="gallery">
-     
-    </div>
+    <h2>Our Moments Together</h2>
+    <div class="divider"></div>
+    <div class="gallery"></div>
    </section>
 
    <section id="photos">
@@ -1502,134 +1665,146 @@ opacity:1;
         </button>
         <div id="upload-preview" class="upload-preview"></div>
         <button class="submit-upload-btn" style="display: none;">Send Photos</button>
-        <button class="back-btn" style="display: none;">Back</button> <!-- Tombol Back baru -->
+        <button class="back-btn" style="display: none;">Back</button>
     </div>
    </section>
 
    <section id="music">
-    <h2>
-     Our Favorite Songs
-    </h2>
-    <div class="divider">
-    </div>
-    <p>
-     Play our favorite songs or add your own special tracks >.
-    </p>
-    <div class="song-container" id="song-list">
-     <!-- Songs will be added dynamically -->
-    </div>
+    <h2>Our Favorite Songs</h2>
+    <div class="divider"></div>
+    <p>Play our favorite songs or add your own special tracks >.</p>
+    <div class="song-container" id="song-list"></div>
     <div class="player-container" id="player">
      <div class="player-inner">
-      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen frameborder="0" height="400" id="ytplayer" width="100%" referrerpolicy="strict-origin-when-cross-origin">
-      </iframe>
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen frameborder="0" height="400" id="ytplayer" width="100%" referrerpolicy="strict-origin-when-cross-origin"></iframe>
      </div>
     </div>
     <div class="add-song-form">
-     <h3>
-      Add a New Song
-     </h3>
+     <h3>Add a New Song</h3>
      <form id="song-form">
       <div class="form-group">
-       <input id="song-name" placeholder="Song title" required="" type="text"/>
-       <span class="input-icon">
-        🎵
-       </span>
+       <input id="song-name" placeholder="Song title" required type="text"/>
+       <span class="input-icon">🎵</span>
       </div>
       <div class="form-group">
        <input id="song-artist" placeholder="Artist" type="text"/>
-       <span class="input-icon">
-        🎤
-       </span>
+       <span class="input-icon">🎤</span>
       </div>
       <div class="form-group">
-       <input id="song-url" placeholder="YouTube URL (https://youtu.be/ID)" required="" type="text"/>
-       <span class="input-icon">
-        🎥
-       </span>
+       <input id="song-url" placeholder="YouTube URL (https://youtu.be/ID)" required type="text"/>
+       <span class="input-icon">🎥</span>
       </div>
       <button class="submit-btn" type="submit">
-       <span>
-        Add Song
-       </span>
-       <span class="heart-icon">
-        ❤️
-       </span>
+       <span>Add Song</span>
+       <span class="heart-icon">❤️</span>
       </button>
      </form>
     </div>
    </section>
+
    <section id="verse">
-    <h2>
-     Our Daily Verse
-    </h2>
-    <div class="divider">
-    </div>
+    <h2>Our Daily Verse</h2>
+    <div class="divider"></div>
     <div class="verse-container">
-     <p class="verse-text" id="verse-text">
-      Loading today's verse...
-     </p>
-     <p class="verse-reference" id="verse-reference">
-     </p>
+     <p class="verse-text" id="verse-text">Loading today's verse...</p>
+     <p class="verse-reference" id="verse-reference"></p>
     </div>
    </section>
+
    <section id="wishlist">
-    <h2>
-     Our Wishlist
-    </h2>
-    <div class="divider">
-    </div>
-    <p>
-     Dreams, goals, and things we'd love to do together
-    </p>
+    <h2>Our Wishlist</h2>
+    <div class="divider"></div>
+    <p>Dreams, goals, and things we'd love to do together</p>
     <div class="wishlist-container">
-     <div class="wishlist-form">
-      <input id="wishlist-input" placeholder="Add your wish..." type="text"/>
-      <button id="add-wish">
-       Add
-      </button>
-     </div>
-     <div class="wishlist-items" id="wishlist-items">
-     </div>
+
+      <!-- Lock button row -->
+      <div class="wishlist-lock-row">
+        <button class="wishlist-lock-btn" id="wishlist-lock-btn">
+          🔒 Add Wish
+        </button>
+        <span class="wishlist-who-badge" id="wishlist-who-badge"></span>
+      </div>
+
+      <!-- Form (hidden by default, shown after unlock) -->
+      <div class="wishlist-form" id="wishlist-form">
+        <div class="wishlist-form-row">
+          <input id="wishlist-input" placeholder="Add your wish..." type="text"/>
+          <button id="add-wish">Add</button>
+        </div>
+        <button id="wishlist-lock-again" style="background:none;border:1px solid #ddd;color:#999;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:0.8rem;align-self:flex-start;">
+          🔒 Lock
+        </button>
+      </div>
+
+      <div class="wishlist-items" id="wishlist-items"></div>
     </div>
    </section>
-   <section id="secret">
-    <h2>
-     Secret
-    </h2>
-    <div class="divider">
+
+   <section id="comments">
+    <h2>Messages for Us 🤍</h2>
+    <div class="divider"></div>
+    <div style="margin-top:30px;">
+      <div class="comments-form-box">
+        <h3> Write a message</h3>
+        <div class="comments-input-row">
+          <input id="comment-name" type="text" placeholder="Your name " maxlength="40"/>
+          <textarea id="comment-text" rows="3" placeholder="Say something.." maxlength="300"></textarea>
+          <button class="comments-send-btn" id="comment-send-btn">
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
+        </div>
+      </div>
+      <div class="comments-list" id="comments-list">
+        <div class="comments-empty" id="comments-empty">No messages yet. Be the first! 🌟</div>
+      </div>
     </div>
+   </section>
+
+   <section id="secret">
+    <h2>Secret</h2>
+    <div class="divider"></div>
     <div class="secret-container">
-     <p>
-      Enter special code to unlock 🫰🏻
-     </p>
+     <p>Enter special code to unlock 🫰🏻</p>
      <input class="secret-input" id="secret-code" placeholder="Enter secret code" type="text"/>
-     <button id="unlock-btn">
-      Unlock
-     </button>
+     <button id="unlock-btn">Unlock</button>
      <div class="secret-video" id="secret-video">
-      <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="315" src="" width="560">
-      </iframe>
+      <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen frameborder="0" height="315" src="" width="560"></iframe>
      </div>
     </div>
    </section>
   </div>
+
   <footer>
-   <p>
-    CeyaKell © 2026.
-   </p>
+   <p>CeyaKell © 2026.</p>
   </footer>
+
   <div class="music-controls">
   <button class="music-btn" id="music-toggle" aria-label="Toggle Background Music" title="Music Control">
     <i class="fas fa-music"></i>
-    </button>
-
+  </button>
   <button class="music-btn" id="night-toggle" aria-label="Toggle Night Mode" title="Night Mode">
     <i class="fas fa-moon"></i>
   </button>
 </div>
-  <audio id="bg-music" loop="">
+
+  <audio id="bg-music" loop>
    <source src="bg.mp3" type="audio/mpeg"/>
   </audio>
+
+  <!-- Wish Code Modal -->
+  <div class="wish-code-modal" id="wish-code-modal">
+    <div class="wish-code-box">
+      <h3>🔐 Enter Secret Code</h3>
+      <p>Only Miracle & Michaella can add wishes 💕</p>
+      <input class="wish-code-input" id="wish-code-input" type="password" placeholder="••••••••" maxlength="20"/>
+      <div class="wish-code-error" id="wish-code-error">Wrong code! Try again 🙈</div>
+      <div class="wish-code-btn-row">
+        <button class="wish-code-confirm" id="wish-code-confirm">Unlock ✨</button>
+        <button class="wish-code-cancel" id="wish-code-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <style>
    #audio-control {
     position: fixed;
@@ -1650,21 +1825,162 @@ opacity:1;
     height: 28px;
     filter: invert(1);
   }
+
+        /* ===== COMMENTS / GUEST BOOK ===== */
+        .comments-form-box {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(255,94,138,0.12);
+        }
+
+        .comments-form-box h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .comments-input-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .comments-input-row input,
+        .comments-input-row textarea {
+            width: 100%;
+            padding: 11px 15px;
+            border: 1.5px solid #eee;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            resize: none;
+        }
+
+        .comments-input-row input:focus,
+        .comments-input-row textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255,94,138,0.12);
+        }
+
+        .comments-send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 11px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255,94,138,0.3);
+        }
+
+        .comments-send-btn:hover {
+            background: #ff4279;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255,66,121,0.4);
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .comment-card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            position: relative;
+            border-left: 4px solid var(--secondary);
+            animation: commentSlideIn 0.35s ease;
+        }
+
+        @keyframes commentSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .comment-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .comment-date {
+            font-size: 0.72rem;
+            color: #bbb;
+        }
+
+        .comment-text {
+            color: #555;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        .comment-delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: none;
+            border: none;
+            color: #ddd;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+
+        .comment-delete-btn:hover {
+            color: #ff4444;
+            background: #fff0f0;
+        }
+
+        .comments-empty {
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+            padding: 30px 0;
+        }
+
+        body.night-mode .comments-form-box,
+        body.night-mode .comment-card {
+            background: rgba(255,255,255,0.06);
+            color: var(--dark);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+        }
   </style>
   <style>
   
 body.night-mode {
-  --primary: #ff7aa8;      /* masih pink tapi soft */
-  --secondary: #b59bff;    /* pastel ungu */
+  --primary: #ff7aa8;
+  --secondary: #b59bff;
   --dark: #eaeaf2;
-  --light: #0f1220;        /* background gelap */
+  --light: #0f1220;
   --accent: #7dd3fc;
 
   background: radial-gradient(circle at 20% 10%, #1a1f3a 0%, #0f1220 60%, #0b0d18 100%);
   color: var(--dark);
 }
 
-/* Navbar + cards jadi lebih gelap */
 body.night-mode .navbar {
   background-color: rgba(15, 18, 32, 0.75);
   border-bottom: 1px solid rgba(255, 122, 168, 0.25);
@@ -1690,22 +2006,19 @@ body.night-mode .nav-link:hover {
   color: #0f1220;
 }
 
-/* Gambar sedikit lebih soft */
 body.night-mode img {
   filter: brightness(0.9) contrast(1.05) saturate(1.05);
 }
 
-/* Kurangi “ramai”: partikel & heart jadi lebih halus */
 body.night-mode .floating-heart {
   opacity: 0.15 !important;
 }
 
-/* Sleep mode: animasi lebih pelan */
 body.night-mode * {
   transition-duration: 0.5s;
 }
 body.night-mode header {
-  animation-duration: 12s; /* floatHeader jadi lebih pelan (ngaruh kalau kamu pakai animation shorthand) */
+  animation-duration: 12s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1714,13 +2027,10 @@ body.night-mode header {
     </style>
  
   <script>
-  
   </script>
  
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-
             
   const SUPABASE_URL = 'https://yktwjvzmqhthtyczqvhc.supabase.co'; 
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrdHdqdnptcWh0aHR5Y3pxdmhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMDM4MDQsImV4cCI6MjA2Nzg3OTgwNH0.FDGRmaYBMRcNUlsZhpbVHrLzK6ZYnGP9Lbh-uMsFVgA'; 
@@ -1733,26 +2043,19 @@ body.night-mode header {
   const backBtn = document.querySelector('.back-btn'); 
   const gallery = document.querySelector('#gallery .gallery');
 
-const modal = document.getElementById("imageModal");
-const modalImg = document.getElementById("modalImg");
-const closeBtn = document.querySelector(".close-modal");
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImg");
+  const closeBtn = document.querySelector(".close-modal");
 
+  document.addEventListener("click", function(e){
+    if(e.target.matches(".gallery img")){
+      modal.style.display = "flex";
+      modalImg.src = e.target.src;
+    }
+  });
 
-document.addEventListener("click", function(e){
-  if(e.target.matches(".gallery img")){
-    modal.style.display = "flex";
-    modalImg.src = e.target.src;
-  }
-});
-
-closeBtn.onclick = ()=>{
-  modal.style.display="none";
-}
-
-modal.onclick = ()=>{
-  modal.style.display="none";
-}
-
+  closeBtn.onclick = ()=>{ modal.style.display="none"; }
+  modal.onclick = ()=>{ modal.style.display="none"; }
 
   submitUploadBtn.addEventListener('click', async () => {
     const files = photoUpload.files;
@@ -1793,7 +2096,6 @@ modal.onclick = ()=>{
     backBtn.disabled = false; 
   });
 
-  
   backBtn.addEventListener('click', () => {
     photoUpload.value = ''; 
     uploadPreview.innerHTML = ''; 
@@ -1802,569 +2104,549 @@ modal.onclick = ()=>{
   });
 
   async function loadApprovedPhotos() {
-  const { data: approvedPhotos, error } = await supabase
-    .from('Photos')
-    .select('*')
-    .eq('approved', true)
-    .order('created_at', { ascending: true });
+    const { data: approvedPhotos, error } = await supabase
+      .from('Photos')
+      .select('*')
+      .eq('approved', true)
+      .order('created_at', { ascending: true });
 
-  if (error) {
-    console.error("Error loading approved photos:", error);
-    return;
+    if (error) { console.error("Error loading approved photos:", error); return; }
+
+    gallery.innerHTML = '';
+    approvedPhotos.forEach(photo => {
+      const div = document.createElement('div');
+      div.className = 'gallery-item';
+      div.innerHTML = `<img src="${photo.url}" alt="Approved photo" />`;
+      gallery.appendChild(div);
+    });
   }
-
-  gallery.innerHTML = '';
-
-  approvedPhotos.forEach(photo => {
-    const div = document.createElement('div');
-    div.className = 'gallery-item';
-    div.innerHTML = `<img src="${photo.url}" alt="Approved photo" />`;
-    gallery.appendChild(div);
-  });
-}
 
   document.addEventListener('DOMContentLoaded', loadApprovedPhotos);
 
+  const today = new Date();
+  const secretVideoUrl = "https://drive.google.com/file/d/1EugQQ_XVtb48xVOZSWJQUX-kcdrtO4e7/preview"; 
+  const secretCodeHash = "6d04c86f53e6161e2f81f75cb8e907dc73d10aa3fb7aa4d864218f144373121d";
+  const reCodeHash = "c4cf94e75b6067e81d73250448a38c1030abfdd4b801a5b2e02559b2adddcbe9";
 
-        const today = new Date();
-        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-        
-        
-        const secretVideoUrl = "https://drive.google.com/file/d/1EugQQ_XVtb48xVOZSWJQUX-kcdrtO4e7/preview"; 
-        const secretCode = "imut"; 
-        const reCode = "claire";
-        
-        
-        const songList = document.getElementById('song-list');
-        const player = document.getElementById('player');
-        const ytplayer = document.getElementById('ytplayer');
-        const songForm = document.getElementById('song-form');
-        const verseText = document.getElementById('verse-text');
-        const verseReference = document.getElementById('verse-reference');
-        const wishlistInput = document.getElementById('wishlist-input');
-        const addWishBtn = document.getElementById('add-wish');
-        const wishlistItems = document.getElementById('wishlist-items');
-        const secretCodeInput = document.getElementById('secret-code');
-        const unlockBtn = document.getElementById('unlock-btn');
-        const secretVideo = document.getElementById('secret-video');
-        const musicToggle = document.getElementById('music-toggle');
-        const bgMusic = document.getElementById('bg-music');
+  // Wishlist identity hashes
+  const miracleHash = "c57fdf2345436167af73816897c13ba9d544bbebbdffbafbd42b2eb311f4ec32";
+  const michaellaHash = "bbc420f1755d10dfadd66fe3dff6e3beb5ee341a20153ca279b8a98b0d3bf913";
 
-        
-        let currentSong = null;
-        
-        
-        async function init() {
-            function isNightTime() {
-  const h = new Date().getHours();
-  return (h >= 19 || h < 6); // 19:00 - 05:59
-}
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
 
-function applyNightMode(enabled) {
-  document.body.classList.toggle('night-mode', enabled);
+  // ===== WISHLIST LOCK SYSTEM =====
+  let currentWisher = null; // 'Miracle' | 'Michaella' | null
 
+  const wishLockBtn = document.getElementById('wishlist-lock-btn');
+  const wishForm = document.getElementById('wishlist-form');
+  const wishWhoBadge = document.getElementById('wishlist-who-badge');
+  const wishCodeModal = document.getElementById('wish-code-modal');
+  const wishCodeInput = document.getElementById('wish-code-input');
+  const wishCodeConfirm = document.getElementById('wish-code-confirm');
+  const wishCodeCancel = document.getElementById('wish-code-cancel');
+  const wishCodeError = document.getElementById('wish-code-error');
+  const lockAgainBtn = document.getElementById('wishlist-lock-again');
+
+  wishLockBtn.addEventListener('click', () => {
+    wishCodeInput.value = '';
+    wishCodeError.style.display = 'none';
+    wishCodeModal.classList.add('active');
+    setTimeout(() => wishCodeInput.focus(), 100);
+  });
+
+  wishCodeCancel.addEventListener('click', () => {
+    wishCodeModal.classList.remove('active');
+  });
+
+  wishCodeModal.addEventListener('click', (e) => {
+    if (e.target === wishCodeModal) wishCodeModal.classList.remove('active');
+  });
+
+  wishCodeInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') wishCodeConfirm.click();
+  });
+
+  wishCodeConfirm.addEventListener('click', async () => {
+    const code = wishCodeInput.value.trim();
+    const hash = await sha256(code);
+
+    if (hash === miracleHash) {
+      unlockWishlist('Miracle');
+    } else if (hash === michaellaHash) {
+      unlockWishlist('Michaella');
+    } else {
+      wishCodeInput.classList.add('shake');
+      wishCodeError.style.display = 'block';
+      setTimeout(() => wishCodeInput.classList.remove('shake'), 400);
+    }
+  });
+
+  function unlockWishlist(name) {
+    currentWisher = name;
+    wishCodeModal.classList.remove('active');
+    wishForm.classList.add('unlocked');
+    wishLockBtn.style.display = 'none';
+    wishWhoBadge.textContent = `✨ Adding as ${name}`;
+    wishWhoBadge.style.display = 'inline-block';
+    document.getElementById('wishlist-input').focus();
+  }
+
+  lockAgainBtn.addEventListener('click', () => {
+    currentWisher = null;
+    wishForm.classList.remove('unlocked');
+    wishLockBtn.style.display = 'flex';
+    wishWhoBadge.style.display = 'none';
+    wishWhoBadge.textContent = '';
+  });
+
+  // ===== SONGS =====
+  const songList = document.getElementById('song-list');
+  const player = document.getElementById('player');
+  const ytplayer = document.getElementById('ytplayer');
+  const songForm = document.getElementById('song-form');
+  const verseText = document.getElementById('verse-text');
+  const verseReference = document.getElementById('verse-reference');
+  const wishlistInput = document.getElementById('wishlist-input');
+  const addWishBtn = document.getElementById('add-wish');
+  const wishlistItems = document.getElementById('wishlist-items');
+  const secretCodeInput = document.getElementById('secret-code');
+  const unlockBtn = document.getElementById('unlock-btn');
+  const secretVideo = document.getElementById('secret-video');
+  const musicToggle = document.getElementById('music-toggle');
   const bgMusic = document.getElementById('bg-music');
-  if (bgMusic) {
-    bgMusic.volume = enabled ? 0.25 : 1.0; 
+
+  let currentSong = null;
+
+  async function init() {
+    function isNightTime() {
+      const h = new Date().getHours();
+      return (h >= 19 || h < 6);
+    }
+
+    function applyNightMode(enabled) {
+      document.body.classList.toggle('night-mode', enabled);
+      const bgMusic = document.getElementById('bg-music');
+      if (bgMusic) bgMusic.volume = enabled ? 0.25 : 1.0;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const nightToggle = document.getElementById('night-toggle');
+      const saved = localStorage.getItem('night-mode');
+      if (saved === 'on') applyNightMode(true);
+      else if (saved === 'off') applyNightMode(false);
+      else applyNightMode(isNightTime());
+
+      if (nightToggle) {
+        nightToggle.addEventListener('click', () => {
+          const enabled = !document.body.classList.contains('night-mode');
+          applyNightMode(enabled);
+          localStorage.setItem('night-mode', enabled ? 'on' : 'off');
+        });
+      }
+    });
+
+    await renderSongs();
+    await renderWishlist();
+    showDailyVerse();
+    setupScrollAnimations();
+    
+    songForm.addEventListener('submit', addSong);
+    addWishBtn.addEventListener('click', addWish);
+    unlockBtn.addEventListener('click', checkSecretCode);
+    musicToggle.addEventListener('click', toggleMusic);
+
+    photoUpload.addEventListener('change', (event) => {
+      uploadPreview.innerHTML = '';
+      const files = event.target.files;
+      if (files.length > 0) {
+        submitUploadBtn.style.display = 'inline-block';
+        backBtn.style.display = 'inline-block';
+        for (const file of files) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            uploadPreview.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        }
+      } else {
+        submitUploadBtn.style.display = 'none';
+        backBtn.style.display = 'none';
+      }
+    });
+
+    document.addEventListener('click', createHeart);
+    player.style.display = 'none';
+    
+    if (localStorage.getItem('bg-music') === 'on') {
+      bgMusic.play();
+      musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+    } else {
+      musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    }
   }
 
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const nightToggle = document.getElementById('night-toggle');
-
-  
-  const saved = localStorage.getItem('night-mode'); 
-
-  if (saved === 'on') {
-    applyNightMode(true);
-  } else if (saved === 'off') {
-    applyNightMode(false);
-  } else {
-    applyNightMode(isNightTime());
-  }
-
-  if (nightToggle) {
-    nightToggle.addEventListener('click', () => {
-      const enabled = !document.body.classList.contains('night-mode');
-      applyNightMode(enabled);
-      localStorage.setItem('night-mode', enabled ? 'on' : 'off');
+  async function renderSongs() {
+    songList.innerHTML = '';
+    const { data: songs, error } = await supabase.from('Songs').select('*');
+    if (error) { console.error('Error fetching songs:', error); return; }
+    
+    songs.forEach((song) => {
+      const songCard = document.createElement('div');
+      songCard.className = 'song-card';
+      const videoId = getVideoId(song.url);
+      const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      songCard.innerHTML = `
+        <img src="${thumbnailUrl}" alt="Album cover for ${song.name} by ${song.artist}">
+        <div class="song-play-overlay">
+          <button class="play-button" onclick="playSong('${song.id}')">Play</button>
+          <button class="delete-button" onclick="deleteSong('${song.id}')">🗑️</button>
+        </div>
+        <h4>${song.name}</h4>
+        <p>${song.artist || 'Unknown Artist'}</p>
+      `;
+      songList.appendChild(songCard);
     });
   }
-});
-            await renderSongs();
-            await renderWishlist(); 
-            showDailyVerse();
-            
-            setupScrollAnimations();
-            
-            songForm.addEventListener('submit', addSong);
-            addWishBtn.addEventListener('click', addWish); 
-            unlockBtn.addEventListener('click', checkSecretCode);
-            musicToggle.addEventListener('click', toggleMusic);
 
-        
-            photoUpload.addEventListener('change', (event) => {
-                uploadPreview.innerHTML = ''; 
-                const files = event.target.files;
-                if (files.length > 0) {
-                    submitUploadBtn.style.display = 'inline-block'; 
-                    backBtn.style.display = 'inline-block'; 
-                    for (const file of files) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            uploadPreview.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                } else {
-                    submitUploadBtn.style.display = 'none'; 
-                    backBtn.style.display = 'none'; 
-                }
-            });
+  async function addSong(e) {
+    e.preventDefault();
+    const name = document.getElementById('song-name').value;
+    const artist = document.getElementById('song-artist').value;
+    let url = document.getElementById('song-url').value;
+    const videoId = getVideoId(url);
+    if (!videoId) { alert('Please enter a valid YouTube URL'); return false; }
+    url = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&playerapiid=ytplayer&origin=${window.location.origin}`;
+    const { data, error } = await supabase.from('Songs').insert([{ name, artist, url }]);
+    if (error) { console.error('Error adding song:', error); alert('Failed to add song.'); }
+    else { renderSongs(); songForm.reset(); }
+  }
 
-            submitUploadBtn.addEventListener('click', () => {
-                alert('Terkirim');
-                photoUpload.value = ''; 
-                uploadPreview.innerHTML = ''; 
-                submitUploadBtn.style.display = 'none';
-                backBtn.style.display = 'none'; 
-            });
+  async function playSong(songId) {
+    const { data: song, error } = await supabase.from('Songs').select('*').eq('id', songId).single();
+    if (error) { console.error('Error fetching song:', error); return; }
+    currentSong = song;
+    const videoId = getVideoId(currentSong.url);
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&playerapiid=ytplayer&origin=${window.location.origin}`;
+    ytplayer.src = embedUrl;
+    player.style.display = 'block';
+    bgMusic.pause();
+    musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    player.scrollIntoView({ behavior: 'smooth' });
+  }
 
-            backBtn.addEventListener('click', () => {
-                photoUpload.value = ''; 
-                uploadPreview.innerHTML = ''; 
-                submitUploadBtn.style.display = 'none'; 
-                backBtn.style.display = 'none'; 
-            });
-            
-            document.addEventListener('click', createHeart);
-            
-            player.style.display = 'none';
-            
-            if (localStorage.getItem('bg-music') === 'on') {
-                bgMusic.play();
-                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-            } else {
-                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            }
-        }
-        
-        async function renderSongs() {
-            songList.innerHTML = '';
-            const { data: songs, error } = await supabase.from('Songs').select('*');
-            if (error) {
-                console.error('Error fetching songs:', error);
-                return;
-            }
-            
-            songs.forEach((song, index) => {
-                const songCard = document.createElement('div');
-                songCard.className = 'song-card';
-                
-                const videoId = getVideoId(song.url);
-                const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-                
-                songCard.innerHTML = `
-                    <img src="${thumbnailUrl}" alt="Album cover for ${song.name} by ${song.artist}">
-                    <div class="song-play-overlay">
-                        <button class="play-button" onclick="playSong('${song.id}')">Play</button>
-                        <button class="delete-button" onclick="deleteSong('${song.id}')">🗑️</button>
-                    </div>
-                    <h4>${song.name}</h4>
-                    <p>${song.artist || 'Unknown Artist'}</p>
-                `;
-                
-                songList.appendChild(songCard);
-            });
-        }
-        
-        async function addSong(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('song-name').value;
-            const artist = document.getElementById('song-artist').value;
-            let url = document.getElementById('song-url').value;
-            
-            const videoId = getVideoId(url);
-            if (!videoId) {
-                alert('Please enter a valid YouTube URL');
-                return false;
-            }
-            url = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&playerapiid=ytplayer&origin=${window.location.origin}`;
-            
-            const { data, error } = await supabase.from('Songs').insert([
-                { name, artist, url }
-            ]);
+  function getVideoId(url) {
+    const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[1].length === 11) ? match[1] : null;
+  }
 
-            if (error) {
-                console.error('Error adding song:', error);
-                alert('Failed to add song.');
-            } else {
-                renderSongs();
-                songForm.reset();
-            }
-        }
-        
-        async function playSong(songId) {
-            const { data: song, error } = await supabase.from('Songs').select('*').eq('id', songId).single();
-            if (error) {
-                console.error('Error fetching song:', error);
-                return;
-            }
-
-            currentSong = song;
-            const videoId = getVideoId(currentSong.url); 
-            const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&playerapiid=ytplayer&origin=${window.location.origin}`;
-            ytplayer.src = embedUrl;
-            player.style.display = 'block';
-            
-            bgMusic.pause();
-            musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            
-            player.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function getVideoId(url) {
-            const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[1].length === 11) ? match[1] : null;
-        }
-        
-        
-        async function renderWishlist() {
-            wishlistItems.innerHTML = '';
-            const { data: wishlist, error } = await supabase.from('Wishlist').select('*');
-            if (error) {
-                console.error('Error fetching wishlist:', error);
-                return;
-            }
-            
-            wishlist.forEach((item) => {
-                const wishItem = document.createElement('div');
-                wishItem.className = 'wishlist-item';
-                wishItem.innerHTML = `
-                    <p>${item.item}</p>
-                    <button onclick="removeWish('${item.id}')">&times;</button>
-                `;
-                wishlistItems.appendChild(wishItem);
-            });
-        }
-        
-        
-        async function addWish() {
-            const wish = wishlistInput.value.trim();
-            if (wish) {
-                const { data, error } = await supabase.from('Wishlist').insert([
-                    { item: wish }
-                ]);
-
-                if (error) {
-                    console.error('Error adding wish:', error);
-                    alert('Failed to add wish.');
-                } else {
-                    renderWishlist(); 
-                    wishlistInput.value = '';
-                }
-            }
-        }
-        
-        
-        async function removeWish(wishId) {
-            if (confirm('Are you sure you want to delete this wish?')) {
-                const { error } = await supabase.from('Wishlist').delete().eq('id', wishId);
-                if (error) {
-                    console.error('Error deleting wish:', error);
-                    alert('Failed to delete wish.');
-                } else {
-                    renderWishlist(); 
-                }
-            }
-        }
-
-        async function deleteSong(songId) {
-            if (confirm('Are you sure you want to delete this song?')) {
-                const { error } = await supabase.from('Songs').delete().eq('id', songId);
-                if (error) {
-                    console.error('Error deleting song:', error);
-                    alert('Failed to delete song.');
-                } else {
-                    renderSongs();
-                }
-            }
-        }
-        
-        function showDailyVerse() {
-    fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
-        .then(response => response.json())
-        .then(data => {
-            const verseData = data.verse.details;
-            verseText.textContent = `"${verseData.text}"`;
-            verseReference.textContent = verseData.reference;
-        })
-        .catch(error => {
-            verseText.textContent = "Failed to load verse.";
-            verseReference.textContent = "";
-            console.error("Error fetching verse:", error);
-        });
-}
-        
+  async function renderWishlist() {
+    wishlistItems.innerHTML = '';
+    const { data: wishlist, error } = await supabase.from('Wishlist').select('*');
+    if (error) { console.error('Error fetching wishlist:', error); return; }
     
+    wishlist.forEach((item) => {
+      const wishItem = document.createElement('div');
+      wishItem.className = 'wishlist-item';
+      const byLabel = item.added_by ? `<span class="wish-by">✨ by ${item.added_by}</span>` : '';
+      wishItem.innerHTML = `
+        <p>${item.item}</p>
+        ${byLabel}
+        <button onclick="removeWish('${item.id}')">&times;</button>
+      `;
+      wishlistItems.appendChild(wishItem);
+    });
+  }
 
+  async function addWish() {
+    if (!currentWisher) return;
+    const wish = wishlistInput.value.trim();
+    if (wish) {
+      const { data, error } = await supabase.from('Wishlist').insert([
+        { item: wish, added_by: currentWisher }
+      ]);
+      if (error) { console.error('Error adding wish:', error); alert('Failed to add wish.'); }
+      else { renderWishlist(); wishlistInput.value = ''; }
+    }
+  }
 
+  async function removeWish(wishId) {
+    if (confirm('Are you sure you want to delete this wish?')) {
+      const { error } = await supabase.from('Wishlist').delete().eq('id', wishId);
+      if (error) { console.error('Error deleting wish:', error); alert('Failed to delete wish.'); }
+      else { renderWishlist(); }
+    }
+  }
 
-        function checkSecretCode() {
-            const code = secretCodeInput.value.trim().toLowerCase();
+  async function deleteSong(songId) {
+    if (confirm('Are you sure you want to delete this song?')) {
+      const { error } = await supabase.from('Songs').delete().eq('id', songId);
+      if (error) { console.error('Error deleting song:', error); alert('Failed to delete song.'); }
+      else { renderSongs(); }
+    }
+  }
 
-            if (code === reCode) {
-                triggerREEasterEgg();
-                secretCodeInput.value = '';
+  function showDailyVerse() {
+    fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
+      .then(response => response.json())
+      .then(data => {
+        const verseData = data.verse.details;
+        verseText.textContent = `"${verseData.text}"`;
+        verseReference.textContent = verseData.reference;
+      })
+      .catch(error => {
+        verseText.textContent = "Failed to load verse.";
+        verseReference.textContent = "";
+        console.error("Error fetching verse:", error);
+      });
+  }
 
-            } else if (code === secretCode.toLowerCase()) {
-                secretVideo.style.display = 'block';
-                secretVideo.querySelector('iframe').src = secretVideoUrl;
-                secretCodeInput.value = '';
+  async function checkSecretCode() {
+    const code = secretCodeInput.value.trim().toLowerCase();
+    const hash = await sha256(code);
+    if (hash === reCodeHash) {
+      triggerREEasterEgg();
+      secretCodeInput.value = '';
+    } else if (hash === secretCodeHash) {
+      secretVideo.style.display = 'block';
+      secretVideo.querySelector('iframe').src = secretVideoUrl;
+      secretCodeInput.value = '';
+    } else {
+      alert('Incorrect code! Try again or ask your partner for the secret code.');
+    }
+  }
 
-            } else {
-                alert('Incorrect code! Try again or ask your partner for the secret code.');
-            }
-        }
-
-        function triggerREEasterEgg() {
+  function triggerREEasterEgg() {
     const overlay = document.getElementById('re-overlay');
     overlay.classList.add('active');
     document.body.classList.add('overlay-open');
-
-    // Tampilkan tombol galeri
     const galleryBtn = document.getElementById('re-gallery-btn');
     if (galleryBtn) galleryBtn.style.display = 'flex';
-
     spawnREParticles();
-
     const message = `WELCOMEEEEEEEEEE\n\nIni spesial buat ceyy yang suka banget sama Claire Redfield ❤️\n\nSama kayak Claire yang gak pernah nyerah di Raccoon City,\nkita juga gak akan nyerah satu sama lain mwehehee\n\nStay strong. Stay together. 🧟‍♀️❤️`;
     typewriterEffect('re-message', message, 40);
-
     playRESound();
     playREAmbient();
-
-    // Bersihkan event listener lama
     const oldBtn = document.getElementById('re-close-btn');
     oldBtn.replaceWith(oldBtn.cloneNode(true));
-
-    // Pasang event listener baru
     const newCloseBtn = document.getElementById('re-close-btn');
     newCloseBtn.addEventListener('click', () => {
-        overlay.classList.remove('active');
-        document.body.classList.remove('overlay-open');
-        stopREAmbient();
-
-        // Sembunyikan tombol galeri & tutup modal galeri
-        if (galleryBtn) galleryBtn.style.display = 'none';
-        const modal = document.getElementById('re-gallery-modal');
-        if (modal) modal.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.classList.remove('overlay-open');
+      stopREAmbient();
+      if (galleryBtn) galleryBtn.style.display = 'none';
+      const modal = document.getElementById('re-gallery-modal');
+      if (modal) modal.classList.remove('active');
     });
-}
+  }
 
-
-        let typingInterval; // global variable untuk menyimpan interval
-
-function typewriterEffect(elementId, text, speed) {
+  let typingInterval;
+  function typewriterEffect(elementId, text, speed) {
     const el = document.getElementById(elementId);
-    el.textContent = ''; // reset teks
-    if (typingInterval) clearInterval(typingInterval); // hentikan interval lama jika ada
-
+    el.textContent = '';
+    if (typingInterval) clearInterval(typingInterval);
     let i = 0;
-
     typingInterval = setInterval(() => {
-        if (i < text.length) {
-            el.textContent += text.charAt(i);
-            i++;
-        } else {
-            clearInterval(typingInterval);
-            typingInterval = null;
-        }
+      if (i < text.length) { el.textContent += text.charAt(i); i++; }
+      else { clearInterval(typingInterval); typingInterval = null; }
     }, speed);
-}
+  }
 
-        function spawnREParticles() {
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    const particle = document.createElement('div');
-                    particle.className = 're-particle';
-                    particle.style.left = Math.random() * 100 + 'vw';
-                    particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                    particle.style.animationDelay = (Math.random() * 2) + 's';
-                    particle.style.width = (Math.random() * 6 + 2) + 'px';
-                    particle.style.height = particle.style.width;
-                    document.body.appendChild(particle);
-                    setTimeout(() => particle.remove(), 6000);
-                }, i * 100);
-            }
-        }
-        
-
-        function playRESound() {
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = ctx.createOscillator();
-                const gainNode = ctx.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(ctx.destination);
-                oscillator.type = 'sawtooth';
-                oscillator.frequency.setValueAtTime(80, ctx.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 1.5);
-                gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
-                oscillator.start(ctx.currentTime);
-                oscillator.stop(ctx.currentTime + 1.5);
-            } catch(e) {
-                console.log('Audio not supported');
-            }
-        }
-        
-        function playREAmbient() {
-    const ambient = document.getElementById('re-ambient-audio');
-    if (ambient) {
-        ambient.volume = 0.4;
-        ambient.currentTime = 0;
-        ambient.play().catch(e => console.log('Ambient blocked:', e));
+  function spawnREParticles() {
+    for (let i = 0; i < 30; i++) {
+      setTimeout(() => {
+        const particle = document.createElement('div');
+        particle.className = 're-particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        particle.style.animationDelay = (Math.random() * 2) + 's';
+        particle.style.width = (Math.random() * 6 + 2) + 'px';
+        particle.style.height = particle.style.width;
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 6000);
+      }, i * 100);
     }
-}
+  }
 
-function stopREAmbient() {
+  function playRESound() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      oscillator.type = 'sawtooth';
+      oscillator.frequency.setValueAtTime(80, ctx.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 1.5);
+      gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + 1.5);
+    } catch(e) { console.log('Audio not supported'); }
+  }
+
+  function playREAmbient() {
     const ambient = document.getElementById('re-ambient-audio');
-    if (ambient) {
-        ambient.pause();
-        ambient.currentTime = 0;
+    if (ambient) { ambient.volume = 0.4; ambient.currentTime = 0; ambient.play().catch(e => console.log('Ambient blocked:', e)); }
+  }
+
+  function stopREAmbient() {
+    const ambient = document.getElementById('re-ambient-audio');
+    if (ambient) { ambient.pause(); ambient.currentTime = 0; }
+  }
+
+  const reGalleryBtn = document.getElementById('re-gallery-btn');
+  const reGalleryModal = document.getElementById('re-gallery-modal');
+  const reGalleryClose = document.getElementById('re-gallery-close');
+  if (reGalleryBtn) reGalleryBtn.addEventListener('click', () => reGalleryModal.classList.add('active'));
+  if (reGalleryClose) reGalleryClose.addEventListener('click', () => reGalleryModal.classList.remove('active'));
+  if (reGalleryModal) reGalleryModal.addEventListener('click', (e) => { if (e.target === reGalleryModal) reGalleryModal.classList.remove('active'); });
+
+  function toggleMusic() {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      localStorage.setItem('bg-music', 'on');
+      musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+    } else {
+      bgMusic.pause();
+      localStorage.setItem('bg-music', 'off');
+      musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
     }
-}
-// RE Gallery Button Logic
-const reGalleryBtn = document.getElementById('re-gallery-btn');
-const reGalleryModal = document.getElementById('re-gallery-modal');
-const reGalleryClose = document.getElementById('re-gallery-close');
+  }
 
-if (reGalleryBtn) {
-    reGalleryBtn.addEventListener('click', () => {
-        reGalleryModal.classList.add('active');
+  function createHeart(e) {
+    if (e.target.classList.contains('heart') || e.target.classList.contains('floating-heart')) return;
+    const sizes = ['16px', '18px', '20px'];
+    const colors = ['#ff5e8a', '#ff97b7', '#ffcad4'];
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerHTML = '🤍';
+    heart.style.left = (e.pageX - 10) + 'px';
+    heart.style.top = (e.pageY - 10) + 'px';
+    heart.style.fontSize = sizes[Math.floor(Math.random() * sizes.length)];
+    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+    heart.style.textShadow = '0 0 5px rgba(255,255,255,0.5)';
+    document.body.appendChild(heart);
+    setTimeout(() => { if (heart.parentNode) heart.remove(); }, 2000);
+  }
+
+  function setupScrollAnimations() {
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
+  }
+
+  function initParticles() {
+    const container = document.createElement('div');
+    container.className = 'particles';
+    document.body.appendChild(container);
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = Math.random() * 100 + 'vh';
+      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      heart.style.animationDuration = (Math.random() * 15 + 10) + 's';
+      heart.style.animationDelay = (Math.random() * 5) + 's';
+      container.appendChild(heart);
+    }
+    for (let i = 0; i < 20; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '❤️';
+      heart.style.position = 'absolute';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = Math.random() * 100 + 'vh';
+      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      heart.style.opacity = Math.random() * 0.4 + 0.1;
+      container.appendChild(heart);
+    }
+  }
+
+
+  // ===== COMMENTS / GUEST BOOK =====
+  async function renderComments() {
+    const list = document.getElementById('comments-list');
+    const empty = document.getElementById('comments-empty');
+    const { data: comments, error } = await supabase
+      .from('Comments')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) { console.error('Error fetching comments:', error); return; }
+
+    list.innerHTML = '';
+    if (!comments || comments.length === 0) {
+      list.innerHTML = '<div class="comments-empty" id="comments-empty">No messages yet. Be the first! 🌟</div>';
+      return;
+    }
+    comments.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'comment-card';
+      const date = new Date(c.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+      card.innerHTML = `
+        <div class="comment-header">
+          <span class="comment-name">💗 ${c.name}</span>
+          <span class="comment-date">${date}</span>
+        </div>
+        <p class="comment-text">${c.message}</p>
+        <button class="comment-delete-btn" onclick="deleteComment('${c.id}')" title="Delete">✕</button>
+      `;
+      list.appendChild(card);
     });
-}
+  }
 
-if (reGalleryClose) {
-    reGalleryClose.addEventListener('click', () => {
-        reGalleryModal.classList.remove('active');
-    });
-}
+  async function sendComment() {
+    const nameEl = document.getElementById('comment-name');
+    const textEl = document.getElementById('comment-text');
+    const name = nameEl.value.trim();
+    const message = textEl.value.trim();
+    if (!name) { nameEl.focus(); nameEl.style.borderColor = '#ff4444'; setTimeout(()=>nameEl.style.borderColor='',1500); return; }
+    if (!message) { textEl.focus(); textEl.style.borderColor = '#ff4444'; setTimeout(()=>textEl.style.borderColor='',1500); return; }
+    const btn = document.getElementById('comment-send-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    const { error } = await supabase.from('Comments').insert([{ name, message }]);
+    if (error) { alert('Failed to send message.'); console.error(error); }
+    else { nameEl.value = ''; textEl.value = ''; await renderComments(); }
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send';
+  }
 
-if (reGalleryModal) {
-    reGalleryModal.addEventListener('click', (e) => {
-        if (e.target === reGalleryModal) {
-            reGalleryModal.classList.remove('active');
-        }
-    });
-}
-        
-        function toggleMusic() {
-            if (bgMusic.paused) {
-                bgMusic.play();
-                localStorage.setItem('bg-music', 'on');
-                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-            } else {
-                bgMusic.pause();
-                localStorage.setItem('bg-music', 'off');
-                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            }
-        }
-        
-        function createHeart(e) {
-            if (e.target.classList.contains('heart') || e.target.classList.contains('floating-heart')) {
-                return;
-            }
-            
-            const sizes = ['16px', '18px', '20px']; 
-            const colors = ['#ff5e8a', '#ff97b7', '#ffcad4']; 
-            
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '🤍';
-            heart.style.left = (e.pageX - 10) + 'px'; 
-            heart.style.top = (e.pageY - 10) + 'px';
-            heart.style.fontSize = sizes[Math.floor(Math.random() * sizes.length)];
-            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-            heart.style.textShadow = '0 0 5px rgba(255,255,255,0.5)'; 
-            document.body.appendChild(heart);
-            
-            setTimeout(() => {
-                if (heart.parentNode) {
-                    heart.remove();
-                }
-            }, 2000); 
-        }
-        
-        function setupScrollAnimations() {
-            const sections = document.querySelectorAll('section');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-        }
-        
-        function initParticles() {
-            const container = document.createElement('div');
-            container.className = 'particles';
-            document.body.appendChild(container);
+  async function deleteComment(id) {
+    if (!confirm('Delete this message?')) return;
+    const { error } = await supabase.from('Comments').delete().eq('id', id);
+    if (error) { alert('Failed to delete.'); return; }
+    renderComments();
+  }
 
-            for (let i = 0; i < 30; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.innerHTML = '❤️';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.top = Math.random() * 100 + 'vh';
-                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                heart.style.animationDuration = (Math.random() * 15 + 10) + 's';
-                heart.style.animationDelay = (Math.random() * 5) + 's';
-                container.appendChild(heart);
-            }
+  document.getElementById('comment-send-btn').addEventListener('click', sendComment);
+  document.getElementById('comment-text').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.ctrlKey) sendComment();
+  });
 
-            for (let i = 0; i < 20; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.innerHTML = '❤️';
-                heart.style.position = 'absolute';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.top = Math.random() * 100 + 'vh';
-                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                heart.style.opacity = Math.random() * 0.4 + 0.1;
-                container.appendChild(heart);
-            }
-        }
+  window.deleteComment = deleteComment;
+  renderComments();
 
-        initParticles();
-
-        window.playSong = playSong;
-        window.removeWish = removeWish;
-        window.deleteSong = deleteSong;
-        
-        init();
-        </script>
+  initParticles();
+  window.playSong = playSong;
+  window.removeWish = removeWish;
+  window.deleteSong = deleteSong;
+  init();
+</script>
 
 <!-- RE Ambient Sound -->
 <audio id="re-ambient-audio" loop preload="auto" style="display:none;">
     <source src="ambient.mp3" type="audio/mpeg" />
 </audio>
 
-
-
-</script>
 <div id="imageModal" class="image-modal">
   <span class="close-modal">&times;</span>
   <img class="modal-content" id="modalImg">
@@ -2372,124 +2654,64 @@ if (reGalleryModal) {
 
 <script type="module">
 const MOBILE_WIDTH = 768;
-
-function isMobile() {
-    return window.innerWidth <= MOBILE_WIDTH;
-}
-
+function isMobile() { return window.innerWidth <= MOBILE_WIDTH; }
 
 function enableMobileOptimizations() {
     document.body.classList.add('mobile-light-mode');
-
-    
     const hearts = document.querySelectorAll('.floating-heart, .heart');
     hearts.forEach(h => h.style.display = 'none');
-
-    
     const header = document.querySelector('header');
     if(header) header.style.animation = 'none';
-
-    
     const cards = document.querySelectorAll('.song-card, .profile-img, .wishlist-item, .upload-container, .verse-container, .gallery-item');
-    cards.forEach(c => {
-        c.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
-        c.style.filter = 'none';
-        c.style.transition = 'none';
-    });
-
-    
+    cards.forEach(c => { c.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)'; c.style.filter = 'none'; c.style.transition = 'none'; });
     const images = document.querySelectorAll('.gallery-item img, .upload-preview img, #pet-image, .profile-img');
-    images.forEach(img => {
-        if(!img.dataset.src) {
-            img.dataset.src = img.src;
-            img.src = '';
-        }
-    });
-
-    
+    images.forEach(img => { if(!img.dataset.src) { img.dataset.src = img.src; img.src = ''; } });
     const iframes = document.querySelectorAll('iframe');
-    iframes.forEach(f => {
-        f.dataset.src = f.src;
-        f.src = '';
-    });
-
-    
+    iframes.forEach(f => { f.dataset.src = f.src; f.src = ''; });
     const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if(entry.isIntersecting){
-                lazyLoadMedia(entry.target);
-                obs.unobserve(entry.target);
-            }
-        });
+        entries.forEach(entry => { if(entry.isIntersecting){ lazyLoadMedia(entry.target); obs.unobserve(entry.target); } });
     }, { rootMargin: "200px" });
-
     images.forEach(img => observer.observe(img));
     iframes.forEach(f => observer.observe(f));
 }
-
 
 function lazyLoadMedia(el) {
     if(el.tagName === 'IMG' && el.dataset.src) el.src = el.dataset.src;
     if(el.tagName === 'IFRAME' && el.dataset.src) el.src = el.dataset.src;
 }
 
-
-window.addEventListener('load', () => {
-    if(isMobile()) enableMobileOptimizations();
-});
-
-window.addEventListener('resize', () => {
-    if(!isMobile()) document.body.classList.remove('mobile-light-mode');
-});
-
+window.addEventListener('load', () => { if(isMobile()) enableMobileOptimizations(); });
+window.addEventListener('resize', () => { if(!isMobile()) document.body.classList.remove('mobile-light-mode'); });
 </script>
-<script>
 
+<script>
 const startDate = new Date("2026-03-27 00:00:00"); 
 
 function formatTanggal(date){
-return date.toLocaleDateString("id-ID", {
-day: "numeric",
-month: "long",
-year: "numeric"
-});
+  return date.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
 }
 
 function updateTime(){
-
-const now = new Date();
-const diff = now - startDate;
-
-const hari = Math.floor(diff / (1000*60*60*24));
-const jam = Math.floor((diff / (1000*60*60)) % 24);
-const menit = Math.floor((diff / (1000*60)) % 60);
-
-document.getElementById("countdown").innerHTML =
-`${hari} hari ${jam} jam ${menit} menit`;
-
-document.getElementById("anniv-date").innerHTML =
-formatTanggal(startDate);
-
+  const now = new Date();
+  const diff = now - startDate;
+  const hari = Math.floor(diff / (1000*60*60*24));
+  const jam = Math.floor((diff / (1000*60*60)) % 24);
+  const menit = Math.floor((diff / (1000*60)) % 60);
+  document.getElementById("countdown").innerHTML = `${hari} hari ${jam} jam ${menit} menit`;
+  document.getElementById("anniv-date").innerHTML = formatTanggal(startDate);
 }
 
 setInterval(updateTime,1000);
 updateTime();
-
 </script>
+
 <!-- RE Easter Egg Overlay -->
 <div class="re-overlay" id="re-overlay">
     <div class="re-screen">
-
-        <!-- Biohazard Icon -->
         <span class="re-biohazard">☣️</span>
-
-        <!-- Title dengan Glitch -->
         <h1 class="re-title re-glitch" data-text="RESIDENT EVIL">RESIDENT EVIL</h1>
         <p class="re-subtitle">Raccoon City Archives — Classified</p>
-
         <div class="re-divider"></div>
-
-        <!-- Claire Card -->
         <div class="re-claire-section">
             <div class="re-claire-img">
                 <img src="CeyyCakep.jpg" alt="My Girl" />
@@ -2504,14 +2726,10 @@ updateTime();
                 Raccoon City Survivor — 1998.</p>
             </div>
         </div>
-
-        <!-- RE Quote -->
         <div class="re-quote">
             "I'm not going to just sit here and wait to die."
             <br><small style="color:#666;">— Ceyy Redfield, RE2</small>
         </div>
-
-        <!-- Stats -->
         <div class="re-stats">
             <div class="re-stat-item">
                 <span class="re-stat-label">Strength</span>
@@ -2526,72 +2744,41 @@ updateTime();
                 <span class="re-stat-value">★★★★★</span>
             </div>
         </div>
-
         <div class="re-divider"></div>
-
-        <!-- Message Box -->
         <div class="re-message-box">
             <p class="re-message-text" id="re-message"></p>
         </div>
-
-        <!-- Close Button -->
-        <button class="re-close-btn" id="re-close-btn">
-            [ EXIT RACCOON CITY ]
-        </button>
-
+        <button class="re-close-btn" id="re-close-btn">[ EXIT RACCOON CITY ]</button>
     </div>
-    
 </div>
-<!-- Tombol buka galeri Claire - pojok kanan bawah -->
-<button class="re-gallery-btn" id="re-gallery-btn" title="Open Claire's Files">
-    📁
-</button>
 
-<!-- Modal Galeri Claire -->
+<button class="re-gallery-btn" id="re-gallery-btn" title="Open Claire's Files">📁</button>
+
 <div class="re-gallery-modal" id="re-gallery-modal">
     <div class="re-gallery-modal-inner">
         <div class="re-gallery-modal-header">
             <span class="re-card-label">// CLAIRE REDFIELD — PHOTO FILES //</span>
             <button class="re-gallery-close" id="re-gallery-close">✕</button>
         </div>
-
         <div class="re-gallery-grid">
             <div class="re-gallery-item">
-                <img src="RE2.jpg" 
-                     alt="Claire RE2" 
-                     onerror="this.parentElement.style.display='none'" />
+                <img src="RE2.jpg" alt="Claire RE2" onerror="this.parentElement.style.display='none'" />
                 <span class="re-gallery-caption">RE2 Remake — 1998</span>
             </div>
             <div class="re-gallery-item">
-                <img src="CV.jpg" 
-                     alt="Claire Code Veronica"
-                     onerror="this.parentElement.style.display='none'" />
+                <img src="CV.jpg" alt="Claire Code Veronica" onerror="this.parentElement.style.display='none'" />
                 <span class="re-gallery-caption">Code Veronica — 2000</span>
             </div>
             <div class="re-gallery-item">
-                <img src="RV2.jpg" 
-                     alt="Claire Revelations 2"
-                     onerror="this.parentElement.style.display='none'" />
+                <img src="RV2.jpg" alt="Claire Revelations 2" onerror="this.parentElement.style.display='none'" />
                 <span class="re-gallery-caption">Revelations 2 — 2015</span>
             </div>
             <div class="re-gallery-item">
-                <img src="CID.jpg" 
-                     alt="Claire Infinite Darkness"
-                     onerror="this.parentElement.style.display='none'" />
+                <img src="CID.jpg" alt="Claire Infinite Darkness" onerror="this.parentElement.style.display='none'" />
                 <span class="re-gallery-caption">Infinite Darkness — 2021</span>
             </div>
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const closeBtn = document.getElementById('re-close-btn');
-    const overlay = document.getElementById('re-overlay');
-    closeBtn.addEventListener('click', function() {
-        overlay.classList.remove('active');
-        document.body.classList.remove('overlay-open');
-    });
-});
-</script>
 </body>
 </html>
